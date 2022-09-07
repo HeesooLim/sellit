@@ -12,4 +12,5 @@ public interface UserService {
     Role addRole(Role role);
     void addRoleToUser(String username, String roleName);
     User getUser(String username);
+    void updateUser(String username, String email, String firstName, String lastName, String password);
 }

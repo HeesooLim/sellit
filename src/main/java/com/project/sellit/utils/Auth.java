@@ -22,10 +22,15 @@ public class Auth {
         String username = jwt.getSubject();
         String[] roles = jwt.getClaim("roles").asArray(String.class);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        stream(roles).forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role));
-        });
+        stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
 
         return new JWTPayload(username, authorities);
+    }
+
+    public static Boolean isAdmin(Collection<SimpleGrantedAuthority> authorities) {
+        for (SimpleGrantedAuthority authority : authorities) {
+            return authority.getAuthority().equals("admin");
+        }
+        return false;
     }
 }

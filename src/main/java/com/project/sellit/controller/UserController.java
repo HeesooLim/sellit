@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,10 +26,30 @@ public class UserController {
     private UserService userService;
 
 //    @RolesAllowed({Roles.ADMIN})
+    @GetMapping("/admin/users")
+    public ResponseEntity<?> getUsers(@RequestHeader (name="Authorization") String token) {
+        JWTPayload payload = Auth.getUserFromToken(token);
+        if (Auth.isAdmin(payload.getAuthorities())) {
+            return ResponseEntity.ok().body(userService.getAll());
+        }
+        return ResponseEntity.badRequest().body("User does not have admin access");
+    }
+
     @GetMapping("/admin/user")
-    public ResponseEntity<List<User>> getUsers() {
-        log.info("Found users: "+ userService.getAll());
-        return ResponseEntity.ok().body(userService.getAll());
+    public ResponseEntity<?> getUserAdmin(@RequestHeader (name="Authorization") String token, @RequestParam("username") String username) {
+        JWTPayload payload = Auth.getUserFromToken(token);
+        if (Auth.isAdmin(payload.getAuthorities())) {
+            return ResponseEntity.ok().body(userService.getAll());
+        }
+        User user = userService.getUser(username);
+        return ResponseEntity.ok(Objects.requireNonNullElse(user, "User not found"));
+    }
+
+    @PostMapping("/user/edit")
+    public ResponseEntity<?> editUser(@RequestBody User user) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/public/user/add").toUriString());
+        userService.updateUser(user.getUsername(),user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
+        return ResponseEntity.created(uri).body("Updated user");
     }
 
     @PostMapping("/user/add")
@@ -53,6 +73,8 @@ public class UserController {
     @GetMapping("/user")
     public ResponseEntity<?> getUser(@RequestHeader (name="Authorization") String token) {
         JWTPayload payload = Auth.getUserFromToken(token);
+        log.info("Token: "+token);
+        log.info(payload.getUsername());
 
         return ResponseEntity.ok().body(userService.getUser(payload.getUsername()));
     }
