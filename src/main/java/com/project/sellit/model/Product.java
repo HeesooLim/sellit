@@ -14,15 +14,15 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int userId;
+    private int username;
     private int buyerId;
     private String title;
     private Double price;
     private String description;
-    private String locaton;
+    private String location;
     private Date date;
     private String status;
-    private String favouriteIds;
+    private String favUsernames;
 
     public Product() {
     }
@@ -36,11 +36,11 @@ public class Product {
     }
 
     public int getUserId() {
-        return userId;
+        return username;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserId(int username) {
+        this.username = username;
     }
 
     public int getBuyerId() {
@@ -75,12 +75,12 @@ public class Product {
         this.description = description;
     }
 
-    public String getLocaton() {
-        return locaton;
+    public String getLocation() {
+        return location;
     }
 
-    public void setLocaton(String locaton) {
-        this.locaton = locaton;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Date getDate() {
@@ -100,26 +100,26 @@ public class Product {
     }
 
     public String getFavouriteIds() {
-        return favouriteIds;
+        return favUsernames;
     }
 
-    public void setFavouriteIds(String favouriteIds) {
-        this.favouriteIds = favouriteIds;
+    public void setFavouriteIds(String favUsernames) {
+        this.favUsernames = favUsernames;
     }
 
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", username=" + username +
                 ", buyerId=" + buyerId +
                 ", title='" + title + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
-                ", locaton='" + locaton + '\'' +
+                ", locaton='" + location + '\'' +
                 ", date=" + date +
                 ", status='" + status + '\'' +
-                ", favouriteIds='" + favouriteIds + '\'' +
+                ", favouriteIds='" + favUsernames + '\'' +
                 '}';
     }
 }
