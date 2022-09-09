@@ -1,26 +1,23 @@
 package com.project.sellit.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.sql.Date;
-import java.util.List;
+import java.sql.Timestamp;
 
 @Entity(name = "Products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int username;
+    private String username;
     private int buyerId;
     private String title;
     private Double price;
     private String description;
     private String location;
-    private Date date;
+    private Timestamp timestamp;
     private String status;
     private String favUsernames;
 
@@ -35,11 +32,11 @@ public class Product {
         this.id = id;
     }
 
-    public int getUserId() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUserId(int username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -83,12 +80,12 @@ public class Product {
         this.location = location;
     }
 
-    public Date getDate() {
-        return date;
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getStatus() {
@@ -117,7 +114,7 @@ public class Product {
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", locaton='" + location + '\'' +
-                ", date=" + date +
+                ", date=" + timestamp +
                 ", status='" + status + '\'' +
                 ", favouriteIds='" + favUsernames + '\'' +
                 '}';
